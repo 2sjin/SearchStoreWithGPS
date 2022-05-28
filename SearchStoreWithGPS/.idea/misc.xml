@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/workspace/AndroidStudioProjects/SW_Git/SearchStoreWithGPS/app/src/main/res/layout/activity_location_search_ui.xml" value="0.264" />
+        <entry key="..\:/workspace/AndroidStudioProjects/SW_Git/SearchStoreWithGPS/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/workspace/AndroidStudioProjects/SW_Git/SearchStoreWithGPS/app/src/main/res/layout/activity_main_ui.xml" value="0.176" />
+        <entry key="..\:/workspace/AndroidStudioProjects/SW_Git/SearchStoreWithGPS/app/src/main/res/layout/activity_maps.xml" value="0.1" />
+        <entry key="..\:/workspace/AndroidStudioProjects/SW_Git/SearchStoreWithGPS/app/src/main/res/layout/activity_store_check_ui.xml" value="0.2" />
         <entry key="..\:/workspace/AndroidStudioProjects/SearchStoreWithGPS/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/workspace/AndroidStudioProjects/SearchStoreWithGPS/app/src/main/res/layout/activity_maps.xml" value="0.25364583333333335" />
       </map>

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainUI">
 
     <View
         android:id="@+id/adsVanner"
-        android:layout_width="381dp"
-        android:layout_height="108dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="407dp"
+        android:layout_height="104dp"
+        android:layout_marginBottom="8dp"
         android:background="#777777"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
