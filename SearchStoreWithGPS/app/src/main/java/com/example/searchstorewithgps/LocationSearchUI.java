@@ -26,7 +26,7 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
     private Button searchButton;
     private int MY_LOCATION_REQUEST_CODE = 1;
 
-    static LatLng deviceLocation = null;
+    private static LatLng deviceLocation = null;
 
     public void openStoreCheckUI() {
         StoreCheckUI.setDeviceLocation(deviceLocation);
