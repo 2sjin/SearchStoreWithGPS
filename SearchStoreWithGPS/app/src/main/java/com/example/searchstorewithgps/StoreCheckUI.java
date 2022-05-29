@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -19,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback {
+public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback {
 
     private ListView storeListView;
     private GoogleMap mMap;
@@ -27,6 +28,7 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
     private int MY_LOCATION_REQUEST_CODE = 1;
 
     private static ArrayList<Store> storeArray;
+    private static LatLng deviceLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,9 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationButtonClickListener(this);
+
         checkStore();
     }
 
@@ -96,14 +101,22 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
         }
 
         // 카메라 이동
-        LatLng tour = new LatLng(35.1442809-0.0007, 129.0350693);
-        mMap.addMarker(new MarkerOptions().position(tour).title("동의대학교 지천관"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(tour));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 18));
+        LatLng adjustedLocation = new LatLng(deviceLocation.latitude-0.0005, deviceLocation.longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(adjustedLocation));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(adjustedLocation, 18));
+    }
+
+    public static void setDeviceLocation(LatLng devLoc) {
+        deviceLocation = devLoc;
     }
 
     public static void setStoreArray(ArrayList<Store> arr) {
         storeArray = arr;
     }
 
+    @Override
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(this, "현재 위치로 이동합니다.", Toast.LENGTH_SHORT).show();
+        return false;
+    }
 }

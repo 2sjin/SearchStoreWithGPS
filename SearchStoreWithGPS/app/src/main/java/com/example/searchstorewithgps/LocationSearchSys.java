@@ -55,9 +55,10 @@ public class LocationSearchSys {
         tempStoreArray.add(new Store(0, "투썸플레이스 동의대점", 35.1459356,129.035277));
         tempStoreArray.add(new Store(0, "커피에반하다 부산신평점", 35.0932288,128.9734027));
 
-        double range = 0.001;
+        double range = 0.001;   // 반경 설정
+        storeArray.clear();     // 메인 ArrayList 초기화
 
-        // 일정 반경 내의 매장 정보를 본 ArrayList에 추가
+        // 임시 ArrayList에서 반경 내의 매장 정보만 메인 ArrayList에 추가
         for(int i=0; i<tempStoreArray.size(); i++)
             if ( (tempStoreArray.get(i).getAddr1() < (deviceLocation.latitude + range)) &&
                     (tempStoreArray.get(i).getAddr1() > (deviceLocation.latitude - range)) &&

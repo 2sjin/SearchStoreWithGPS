@@ -17,11 +17,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-public class LocationSearchUI extends FragmentActivity implements
-        GoogleMap.OnMyLocationButtonClickListener,
-        OnMapReadyCallback {
+public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback {
 
     private LocationSearchSys ctrlSys;
     private GoogleMap mMap;
@@ -32,6 +29,7 @@ public class LocationSearchUI extends FragmentActivity implements
     static LatLng deviceLocation = null;
 
     public void openStoreCheckUI() {
+        StoreCheckUI.setDeviceLocation(deviceLocation);
         StoreCheckUI.setStoreArray(ctrlSys.getStoreLocation(deviceLocation));
         Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
         startActivity(intent);
@@ -84,7 +82,6 @@ public class LocationSearchUI extends FragmentActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=
@@ -93,14 +90,12 @@ public class LocationSearchUI extends FragmentActivity implements
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
         }
-
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
-        // 현재 위치 마커 및 카메라 이동
+        // 현재 위치로 및 카메라 이동
         deviceLocation = ctrlSys.getDeviceLocation(this, this);
         if (deviceLocation != null) {
-            mMap.addMarker(new MarkerOptions().position(deviceLocation).title("현재 위치"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(deviceLocation));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deviceLocation, 18));
         }
@@ -114,7 +109,7 @@ public class LocationSearchUI extends FragmentActivity implements
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "현재 위치로 이동합니다.", Toast.LENGTH_SHORT).show();
         return false;
     }
 

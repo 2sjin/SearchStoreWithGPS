@@ -17,7 +17,7 @@
     <ListView
         android:id="@+id/storeListView"
         android:layout_width="match_parent"
-        android:layout_height="347dp"
+        android:layout_height="289dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
         android:background="#777777"
