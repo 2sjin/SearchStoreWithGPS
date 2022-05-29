@@ -34,6 +34,8 @@ public class LocationSearchUI extends FragmentActivity implements
     Button searchButton;
     private int MY_LOCATION_REQUEST_CODE = 1;
 
+    static LatLng deviceLocation = null;
+
     private FusedLocationProviderClient fusedLocationClient;
 
     public void openStoreCheckUI() {
@@ -75,16 +77,10 @@ public class LocationSearchUI extends FragmentActivity implements
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    // 카메라 이동
-                    LatLng tour = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(tour).title("현재 위치"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(tour));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 18));
+                    deviceLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 }
             }
         });
-
-
     }
 
     @Override
@@ -107,16 +103,6 @@ public class LocationSearchUI extends FragmentActivity implements
         }
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -132,6 +118,16 @@ public class LocationSearchUI extends FragmentActivity implements
 
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
+
+        // 현재 위치 마커 및 카메라 이동
+
+        searchButton.setText(String.valueOf(deviceLocation));
+
+        if (deviceLocation != null) {
+            mMap.addMarker(new MarkerOptions().position(deviceLocation).title("현재 위치"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(deviceLocation));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deviceLocation, 18));
+        }
     }
 
     @Override
