@@ -14,9 +14,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.searchstorewithgps.databinding.ActivityMapsBinding;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class LocationSearchUI extends FragmentActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
@@ -101,6 +104,12 @@ public class LocationSearchUI extends FragmentActivity implements
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
+
+        // 카메라 이동
+        LatLng tour = new LatLng(35.1442809, 129.0350693);
+        mMap.addMarker(new MarkerOptions().position(tour).title("동의대학교 지천관"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(tour));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 18));
     }
 
     @Override
