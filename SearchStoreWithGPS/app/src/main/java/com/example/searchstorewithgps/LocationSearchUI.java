@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -23,10 +22,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 public class LocationSearchUI extends FragmentActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback {
 
     private LocationSearchSys ctrlSys;
@@ -71,15 +70,21 @@ public class LocationSearchUI extends FragmentActivity implements
             return;
         }
 
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            searchButton.setText(location.getLatitude() + ", " + location.getLongitude());
-                        }
-                    }
-                });
+        Task a = fusedLocationClient.getLastLocation();
+        a.addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    // 카메라 이동
+                    LatLng tour = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(tour).title("현재 위치"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(tour));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 18));
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -127,18 +132,6 @@ public class LocationSearchUI extends FragmentActivity implements
 
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
-        mMap.setOnMyLocationClickListener(this);
-
-        // 카메라 이동
-        LatLng tour = new LatLng(35.1442809, 129.0350693);
-        mMap.addMarker(new MarkerOptions().position(tour).title("동의대학교 지천관"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(tour));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 18));
-    }
-
-    @Override
-    public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
 
     @Override

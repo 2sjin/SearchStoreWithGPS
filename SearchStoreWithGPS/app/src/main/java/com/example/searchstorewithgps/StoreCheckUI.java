@@ -34,25 +34,12 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMaps2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        storeListView = findViewById(R.id.storeListView);
-        storeArray = new ArrayList<>();
-
-        storeArray.add("맘스터치 동의대지천관점");
-        storeArray.add("CAFE SPAZiO");
-        storeArray.add("할리스 부산동의대점");
-        storeArray.add("CU 동의대지천관점");
-        storeArray.add("GS25 동의대정보관점");
-        storeArray.add("GS25 동의대공대점");
-        storeArray.add("밀탑동의대점");
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, storeArray);
-        storeListView.setAdapter(arrayAdapter);
-
+        storeListView = findViewById(R.id.storeListView);   // 리스트뷰 불러오기
+        storeArray = new ArrayList<>();     // ArrayList 생성
     }
 
     @Override
@@ -74,19 +61,9 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=
@@ -95,6 +72,19 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
         }
+
+        // ArrayList에 항목 추가
+        storeArray.add("맘스터치 동의대지천관점");
+        storeArray.add("CAFE SPAZiO");
+        storeArray.add("할리스 부산동의대점");
+        storeArray.add("CU 동의대지천관점");
+        storeArray.add("GS25 동의대정보관점");
+        storeArray.add("GS25 동의대공대점");
+        storeArray.add("밀탑동의대점");
+
+        // ArrayList에 추가한 항목을 리스트뷰에 저장
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, storeArray);
+        storeListView.setAdapter(arrayAdapter);
 
         // 마커 추가
         mMap.addMarker(new MarkerOptions().position(
@@ -113,7 +103,7 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(35.1432048,129.0340628)).title("밀탑동의대점"));
 
         // 카메라 이동
-        LatLng tour = new LatLng(35.1442809, 129.0350693);
+        LatLng tour = new LatLng(35.1442809-0.0007, 129.0350693);
         mMap.addMarker(new MarkerOptions().position(tour).title("동의대학교 지천관"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tour));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 18));
