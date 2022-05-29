@@ -17,8 +17,8 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 public class LocationSearchSys {
-    ArrayList<Store> storeArray;
-    static LatLng deviceLocation = null;
+    private ArrayList<Store> storeArray = new ArrayList<>();
+    private static LatLng deviceLocation = null;
     private FusedLocationProviderClient fusedLocationClient;
 
     public LatLng getDeviceLocation(Activity activity, Context context) {

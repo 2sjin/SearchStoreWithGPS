@@ -1,13 +1,13 @@
 package com.example.searchstorewithgps;
 
 public class Store {
-    int id;
-    String tel;
-    String name;
-    String storeClass;
-    double addr1;
-    double addr2;
-    String email;
+    private int id;
+    private String tel;
+    private String name;
+    private String storeClass;
+    private double addr1;
+    private double addr2;
+    private String email;
 
     // 생성자
     public Store(int id, String name, double addr1, double addr2) {

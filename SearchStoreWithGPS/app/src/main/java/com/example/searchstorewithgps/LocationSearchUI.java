@@ -26,12 +26,15 @@ public class LocationSearchUI extends FragmentActivity implements
     private LocationSearchSys ctrlSys;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    Button searchButton;
+    private Button searchButton;
     private int MY_LOCATION_REQUEST_CODE = 1;
 
     static LatLng deviceLocation = null;
 
     public void openStoreCheckUI() {
+        StoreCheckUI.setStoreArray(ctrlSys.getStoreLocation());
+        Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
+        startActivity(intent);
     }
 
     public void showErrorMsg() {
@@ -40,7 +43,6 @@ public class LocationSearchUI extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -54,8 +56,7 @@ public class LocationSearchUI extends FragmentActivity implements
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
-                startActivity(intent);
+                openStoreCheckUI();
             }
         });
     }

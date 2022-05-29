@@ -21,11 +21,12 @@ import java.util.ArrayList;
 
 public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback {
 
-    private ArrayList<String> storeArray;
     private ListView storeListView;
     private GoogleMap mMap;
     private ActivityMaps2Binding binding;
     private int MY_LOCATION_REQUEST_CODE = 1;
+
+    private static ArrayList<Store> storeArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,6 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         storeListView = findViewById(R.id.storeListView);   // 리스트뷰 불러오기
-        storeArray = new ArrayList<>();     // ArrayList 생성
     }
 
     @Override
@@ -68,45 +68,42 @@ public class StoreCheckUI extends FragmentActivity implements OnMapReadyCallback
                 PackageManager.PERMISSION_GRANTED &&
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {
+            ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
+        checkStore();
+    }
 
-        // ArrayList에 항목 추가
-        storeArray.add("맘스터치 동의대지천관점");
-        storeArray.add("CAFE SPAZiO");
-        storeArray.add("할리스 부산동의대점");
-        storeArray.add("CU 동의대지천관점");
-        storeArray.add("GS25 동의대정보관점");
-        storeArray.add("GS25 동의대공대점");
-        storeArray.add("밀탑동의대점");
 
-        // ArrayList에 추가한 항목을 리스트뷰에 저장
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, storeArray);
+
+    public void checkStore() {
+        // 임시 ArrayList 생성
+        ArrayList<String> storeNameArray = new ArrayList<>();
+
+        // 임시 ArrayList에 항목 추가
+        for(int i = 0; i< storeArray.size(); i++)
+            storeNameArray.add(storeArray.get(i).getName());
+
+        // 임시 ArrayList에 추가한 항목을 리스트뷰에 저장
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, storeNameArray);
         storeListView.setAdapter(arrayAdapter);
 
         // 마커 추가
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(35.1442925,129.0347551)).title("맘스터치 동의대지천관점"));
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(35.144225, 129.0352422)).title("CAFE SPAZiO"));
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(35.1442099, 129.0348774)).title("할리스 부산동의대점"));
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(35.1442809,129.0350693)).title("CU 동의대지천관점"));
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(35.1463446,129.0356169)).title("GS25 동의대정보관점"));
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(35.1444746,129.0363684)).title("GS25 동의대공대점"));
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(35.1432048,129.0340628)).title("밀탑동의대점"));
+        for(int i = 0; i< storeArray.size(); i++) {
+            mMap.addMarker(new MarkerOptions().position(
+                    new LatLng(storeArray.get(i).getAddr1(), storeArray.get(i).getAddr2())).title(storeArray.get(i).getName()));
+        }
 
         // 카메라 이동
         LatLng tour = new LatLng(35.1442809-0.0007, 129.0350693);
         mMap.addMarker(new MarkerOptions().position(tour).title("동의대학교 지천관"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(tour));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 18));
+    }
+
+    public static void setStoreArray(ArrayList<Store> arr) {
+        storeArray = arr;
     }
 
 }
