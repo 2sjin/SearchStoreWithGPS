@@ -41,14 +41,29 @@ public class LocationSearchSys {
         return deviceLocation;
     }
 
-    public ArrayList<Store> getStoreLocation() {
-        storeArray.add(new Store(0, "맘스터치 동의대지천관점", 35.1442925,129.0347551));
-        storeArray.add(new Store(0, "CAFE SPAZiO", 35.144225, 129.0352422));
-        storeArray.add(new Store(0, "할리스 부산동의대점", 35.1442099, 129.0348774));
-        storeArray.add(new Store(0, "CU 동의대지천관점", 35.1442809,129.0350693));
-        storeArray.add(new Store(0, "GS25 동의대정보관점", 35.1463446,129.0356169));
-        storeArray.add(new Store(0, "GS25 동의대공대점", 35.1444746,129.0363684));
-        storeArray.add(new Store(0, "밀탑동의대점", 35.1432048,129.0340628));
+    public ArrayList<Store> getStoreLocation(LatLng deviceLocation) {
+        ArrayList<Store> tempStoreArray = new ArrayList<>();
+
+        // 매장 정보를 임시 ArrayList에 추가
+        tempStoreArray.add(new Store(0, "맘스터치 동의대지천관점", 35.1442925,129.0347551));
+        tempStoreArray.add(new Store(0, "CAFE SPAZiO", 35.144225, 129.0352422));
+        tempStoreArray.add(new Store(0, "할리스 부산동의대점", 35.1442099, 129.0348774));
+        tempStoreArray.add(new Store(0, "CU 동의대지천관점", 35.1442809,129.0350693));
+        tempStoreArray.add(new Store(0, "GS25 동의대정보관점", 35.1463446,129.0356169));
+        tempStoreArray.add(new Store(0, "GS25 동의대공대점", 35.1444746,129.0363684));
+        tempStoreArray.add(new Store(0, "밀탑동의대점", 35.1432048,129.0340628));
+        tempStoreArray.add(new Store(0, "투썸플레이스 동의대점", 35.1459356,129.035277));
+        tempStoreArray.add(new Store(0, "커피에반하다 부산신평점", 35.0932288,128.9734027));
+
+        double range = 0.001;
+
+        // 일정 반경 내의 매장 정보를 본 ArrayList에 추가
+        for(int i=0; i<tempStoreArray.size(); i++)
+            if ( (tempStoreArray.get(i).getAddr1() < (deviceLocation.latitude + range)) &&
+                    (tempStoreArray.get(i).getAddr1() > (deviceLocation.latitude - range)) &&
+                            (tempStoreArray.get(i).getAddr2() < (deviceLocation.longitude + range)) &&
+                                    (tempStoreArray.get(i).getAddr2() > (deviceLocation.longitude - range)) )
+                storeArray.add(tempStoreArray.get(i));
 
         return storeArray;
     }

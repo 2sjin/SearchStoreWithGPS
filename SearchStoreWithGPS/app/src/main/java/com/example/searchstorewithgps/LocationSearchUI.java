@@ -32,7 +32,7 @@ public class LocationSearchUI extends FragmentActivity implements
     static LatLng deviceLocation = null;
 
     public void openStoreCheckUI() {
-        StoreCheckUI.setStoreArray(ctrlSys.getStoreLocation());
+        StoreCheckUI.setStoreArray(ctrlSys.getStoreLocation(deviceLocation));
         Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
         startActivity(intent);
     }
