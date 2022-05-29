@@ -46,16 +46,20 @@ public class LocationSearchSys {
 
         // 매장 정보를 임시 ArrayList에 추가
         tempStoreArray.add(new Store(0, "맘스터치 동의대지천관점", 35.1442925,129.0347551));
-        tempStoreArray.add(new Store(0, "CAFE SPAZiO", 35.144225, 129.0352422));
-        tempStoreArray.add(new Store(0, "할리스 부산동의대점", 35.1442099, 129.0348774));
-        tempStoreArray.add(new Store(0, "CU 동의대지천관점", 35.1442809,129.0350693));
-        tempStoreArray.add(new Store(0, "GS25 동의대정보관점", 35.1463446,129.0356169));
-        tempStoreArray.add(new Store(0, "GS25 동의대공대점", 35.1444746,129.0363684));
-        tempStoreArray.add(new Store(0, "밀탑동의대점", 35.1432048,129.0340628));
-        tempStoreArray.add(new Store(0, "투썸플레이스 동의대점", 35.1459356,129.035277));
-        tempStoreArray.add(new Store(0, "커피에반하다 부산신평점", 35.0932288,128.9734027));
+        tempStoreArray.add(new Store(1, "CAFE SPAZiO", 35.144225, 129.0352422));
+        tempStoreArray.add(new Store(2, "할리스 부산동의대점", 35.1442099, 129.0348774));
+        tempStoreArray.add(new Store(3, "CU 동의대지천관점", 35.1442809,129.0350693));
+        tempStoreArray.add(new Store(4, "GS25 동의대정보관점", 35.1463446,129.0356169));
+        tempStoreArray.add(new Store(5, "GS25 동의대공대점", 35.1444746,129.0363684));
+        tempStoreArray.add(new Store(6, "밀탑동의대점", 35.1432048,129.0340628));
+        tempStoreArray.add(new Store(7, "투썸플레이스 동의대점", 35.1459356,129.035277));
+        tempStoreArray.add(new Store(8, "커피에반하다 부산신평점", 35.0932288,128.9734027));
+        tempStoreArray.add(new Store(9, "파리바게트 신평럭키점", 35.0934613,128.9735863));
+        tempStoreArray.add(new Store(10, "치킨신드롬사하시장점", 35.0984485,128.9864968));
+        tempStoreArray.add(new Store(11, "뚱땡이삼겹살", 35.0898791,128.9757606));
 
-        double range = 0.001;   // 반경 설정
+
+        double range = 0.01;   // 반경 설정
         storeArray.clear();     // 메인 ArrayList 초기화
 
         // 임시 ArrayList에서 반경 내의 매장 정보만 메인 ArrayList에 추가
