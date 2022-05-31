@@ -3,9 +3,13 @@ package com.example.searchstorewithgps;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -18,15 +22,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
-public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback {
+import java.io.IOException;
+import java.util.List;
+
+public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback{
 
     private LocationSearchSys ctrlSys;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private Button searchButton;
     private int MY_LOCATION_REQUEST_CODE = 1;
+    double Latitude, Longitude;
 
     private static LatLng deviceLocation = null;
+
 
     public void openStoreCheckUI() {
         StoreCheckUI.setDeviceLocation(deviceLocation);
@@ -50,6 +59,39 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
 
         ctrlSys = new LocationSearchSys();
         searchButton = findViewById(R.id.searchButton2);
+
+        //추가분
+        Button button = (Button)findViewById(R.id.button);
+        final EditText et = (EditText)findViewById(R.id.editText);
+
+        final Geocoder geocoder = new Geocoder(this);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Address> list = null;
+
+
+                String str = et.getText().toString();
+                try {
+                    list = geocoder.getFromLocationName(
+                            str, // 지역 이름
+                            10); // 읽을 개수
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
+                }
+
+                if (list != null) {
+                    if (list.size() == 0) {
+
+                        Toast.makeText(getApplicationContext(), "주소를 조금 더 자세히 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Latitude = list.get(0).getLatitude();
+                        Longitude = list.get(0).getLongitude();
+                    }
+                }
+            }
+        }); //여기까지
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
