@@ -30,9 +30,9 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
     private LocationSearchSys ctrlSys;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private Button searchButton;
+    private Button searchButton1;
+    private Button searchButton2;
     private int MY_LOCATION_REQUEST_CODE = 1;
-    double Latitude, Longitude;
 
     private static LatLng deviceLocation = null;
 
@@ -44,7 +44,8 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         startActivity(intent);
     }
 
-    public void showErrorMsg() {
+    public void showErrorMsg(String msg) {
+        Toast.makeText(this.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -58,18 +59,17 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         mapFragment.getMapAsync(this);
 
         ctrlSys = new LocationSearchSys();
-        searchButton = findViewById(R.id.searchButton2);
+        searchButton2 = findViewById(R.id.searchButton2);
 
         //추가분
-        Button button = (Button)findViewById(R.id.button);
+        searchButton1 = (Button)findViewById(R.id.searchButton1);
         final EditText et = (EditText)findViewById(R.id.editText);
 
         final Geocoder geocoder = new Geocoder(this);
-        button.setOnClickListener(new View.OnClickListener() {
+        searchButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<Address> list = null;
-
 
                 String str = et.getText().toString();
                 try {
@@ -83,17 +83,27 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
 
                 if (list != null) {
                     if (list.size() == 0) {
-
-                        Toast.makeText(getApplicationContext(), "주소를 조금 더 자세히 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        showErrorMsg("주소를 조금 더 자세히 입력해주세요.");
                     } else {
+                        double Latitude, Longitude;
                         Latitude = list.get(0).getLatitude();
                         Longitude = list.get(0).getLongitude();
+
+                        // 주소에 해당하는 위치로 지도 이동
+                        deviceLocation = new LatLng(Latitude, Longitude);
+                        if (deviceLocation != null) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(deviceLocation));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deviceLocation, 18));
+                        }
+
+                        openStoreCheckUI();
+
                     }
                 }
             }
         }); //여기까지
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        searchButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openStoreCheckUI();
@@ -135,7 +145,7 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
-        // 현재 위치로 및 카메라 이동
+        // 현재 위치로 지도 이동
         deviceLocation = ctrlSys.getDeviceLocation(this, this);
         if (deviceLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLng(deviceLocation));
@@ -143,15 +153,14 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         }
         else {
             finish();
-            String msg = "위치 탐색 실패. 위치 서비스 확인 후 다시 시도하세요.";
-            Toast.makeText(this.getApplicationContext(),msg, Toast.LENGTH_SHORT).show();
+            showErrorMsg("위치 탐색 실패. 위치 서비스 확인 후 다시 시도하세요.");
         }
-        searchButton.setText(String.valueOf(deviceLocation));
+        searchButton2.setText(String.valueOf(deviceLocation));
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "현재 위치로 이동합니다.", Toast.LENGTH_SHORT).show();
+        showErrorMsg("현재 위치로 이동합니다.");
         return false;
     }
 

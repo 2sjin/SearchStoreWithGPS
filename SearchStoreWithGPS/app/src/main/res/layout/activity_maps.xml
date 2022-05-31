@@ -22,20 +22,27 @@
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent" />
 
+    <View
+        android:id="@+id/view2"
+        android:layout_width="351dp"
+        android:layout_height="52dp"
+        android:background="#777777" />
+
+    <Button
+        android:id="@+id/searchButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="67dp"
+        android:text="검색" />
+
     <EditText
         android:id="@+id/editText"
         android:layout_width="255dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="67dp"
-        android:text="검색" />
+        android:text=""
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>
