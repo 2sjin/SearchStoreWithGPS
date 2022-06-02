@@ -59,14 +59,16 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
                 deviceLocation = ctrlSys.getLocationFromAddress(et, geocoder);
 
                 if (deviceLocation == null) {
-                    showErrorMsg("주소를 조금 더 자세히 입력해주세요.");
+                    showErrorMsg("주소를 더 정확하게 입력해주세요.");
                 }
-                else if(deviceLocation.longitude != 999.999) {
+                else if(deviceLocation.latitude == 999.999 && deviceLocation.longitude == 999.999) {
+                    showErrorMsg("입출력 오류 발생!");
+                }
+                else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(deviceLocation));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deviceLocation, 18));
+                    openStoreCheckUI();
                 }
-
-                openStoreCheckUI();
 
             }
         }); //여기까지

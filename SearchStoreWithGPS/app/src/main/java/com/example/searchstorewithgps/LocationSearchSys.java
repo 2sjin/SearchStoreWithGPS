@@ -107,16 +107,18 @@ public class LocationSearchSys {
                     str, // 지역 이름
                     10); // 읽을 개수
         } catch (IOException e) {
-            return new LatLng(999.999, 999.999);    // 에러코드 대신 위도,경도 범위 외의 값인 999.999를 리턴함
+            deviceLocation =  new LatLng(999.999, 999.999);    // 에러코드 대신 위도,경도 범위 외의 값인 999.999를 리턴함
+            return deviceLocation;
         }
 
         if (list != null) {
             if (list.size() == 0)
-                return null;
+                deviceLocation = null;
             else
-                return new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
+                deviceLocation = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
         }
-        return null;
+        return deviceLocation;
+
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

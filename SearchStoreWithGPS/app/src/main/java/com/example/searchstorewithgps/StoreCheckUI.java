@@ -66,7 +66,8 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
-        checkStore();
+        printStoreLocation();
+        printStoreListView();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,16 +80,18 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void checkStore() {
+    public void printStoreListView() {
         // 임시 ArrayList 생성하여 항목 추가
         ArrayList<String> storeNameArray = new ArrayList<>();
-        for(int i = 0; i< storeArray.size(); i++)
+        for (int i = 0; i < storeArray.size(); i++)
             storeNameArray.add(storeArray.get(i).getName());
 
-        // 임시 ArrayList에 추가한 항목을 리스트뷰에 저장
+        // 임시 ArrayList에 추가한 항목을 리스트뷰에 저장하고 출력
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, storeNameArray);
         storeListView.setAdapter(arrayAdapter);
+    }
 
+    public void printStoreLocation() {
         // 마커 추가
         for(int i = 0; i< storeArray.size(); i++) {
             mMap.addMarker(new MarkerOptions().position(
