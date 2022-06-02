@@ -80,10 +80,8 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void checkStore() {
-        // 임시 ArrayList 생성
+        // 임시 ArrayList 생성하여 항목 추가
         ArrayList<String> storeNameArray = new ArrayList<>();
-
-        // 임시 ArrayList에 항목 추가
         for(int i = 0; i< storeArray.size(); i++)
             storeNameArray.add(storeArray.get(i).getName());
 

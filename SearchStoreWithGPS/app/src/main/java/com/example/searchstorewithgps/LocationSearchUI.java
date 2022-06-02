@@ -28,6 +28,7 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
     private GoogleMap mMap;
     private Button searchButton1;
     private Button searchButton2;
+    private EditText et;
     private static LatLng deviceLocation = null;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,16 +44,13 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         binding = ActivityLocationSearchUiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         ctrlSys = new LocationSearchSys();
-        searchButton2 = findViewById(R.id.searchButton2);
-
-        //추가분
         searchButton1 = (Button)findViewById(R.id.searchButton1);
-        final EditText et = (EditText)findViewById(R.id.editText);
+        searchButton2 = (Button)findViewById(R.id.searchButton2);
+        et = (EditText)findViewById(R.id.editText);
 
         final Geocoder geocoder = new Geocoder(this);
         searchButton1.setOnClickListener(new View.OnClickListener() {
