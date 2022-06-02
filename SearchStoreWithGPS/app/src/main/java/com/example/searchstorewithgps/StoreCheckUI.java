@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.searchstorewithgps.databinding.ActivityMaps2Binding;
+import com.example.searchstorewithgps.databinding.ActivityStoreCheckUiBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,7 +31,7 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private ActivityMaps2Binding binding;
+    private ActivityStoreCheckUiBinding binding;
     private int MY_LOCATION_REQUEST_CODE = 1;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMaps2Binding.inflate(getLayoutInflater());
+        binding = ActivityStoreCheckUiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
