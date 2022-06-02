@@ -22,13 +22,19 @@ import java.util.ArrayList;
 
 public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback {
 
-    private ListView storeListView;
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private GoogleMap mMap;
+    private ListView storeListView;
+    private static ArrayList<Store> storeArray;
+    private static LatLng deviceLocation;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private ActivityMaps2Binding binding;
     private int MY_LOCATION_REQUEST_CODE = 1;
 
-    private static ArrayList<Store> storeArray;
-    private static LatLng deviceLocation;
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +50,7 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
         storeListView = findViewById(R.id.storeListView);   // 리스트뷰 불러오기
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_LOCATION_REQUEST_CODE) {
-            if (permissions.length == 1 &&
-                    permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED &&
-                        checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                                PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[] {
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-                }
-            }
-        }
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -80,7 +69,15 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
         checkStore();
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Override
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(this, "현재 위치로 이동합니다.", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void checkStore() {
         // 임시 ArrayList 생성
@@ -106,17 +103,18 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(adjustedLocation, 18));
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public static void setDeviceLocation(LatLng devLoc) {
         deviceLocation = devLoc;
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void setStoreArray(ArrayList<Store> arr) {
         storeArray = arr;
     }
 
-    @Override
-    public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "현재 위치로 이동합니다.", Toast.LENGTH_SHORT).show();
-        return false;
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }

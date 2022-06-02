@@ -17,14 +17,25 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 public class LocationSearchSys {
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private ArrayList<Store> storeArray = new ArrayList<>();
     private static LatLng deviceLocation = null;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private FusedLocationProviderClient fusedLocationClient;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public LatLng getDeviceLocation(Activity activity, Context context) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
             return null;
         }
 
@@ -41,7 +52,9 @@ public class LocationSearchSys {
         return deviceLocation;
     }
 
-    public ArrayList<Store> getStoreLocation(LatLng deviceLocation) {
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ArrayList<Store> getStoresLocation(LatLng deviceLocation) {
         ArrayList<Store> tempStoreArray = new ArrayList<>();
 
         // 매장 정보를 임시 ArrayList에 추가
@@ -58,7 +71,6 @@ public class LocationSearchSys {
         tempStoreArray.add(new Store(10, "치킨신드롬사하시장점", 35.0984485,128.9864968));
         tempStoreArray.add(new Store(11, "뚱땡이삼겹살", 35.0898791,128.9757606));
 
-
         double range = 0.01;   // 반경 설정
         storeArray.clear();     // 메인 ArrayList 초기화
 
@@ -73,8 +85,13 @@ public class LocationSearchSys {
         return storeArray;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public boolean checkConnected() {
         return true;
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 }

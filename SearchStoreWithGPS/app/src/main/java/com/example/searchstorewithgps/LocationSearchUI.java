@@ -27,26 +27,20 @@ import java.util.List;
 
 public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback{
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private LocationSearchSys ctrlSys;
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
     private Button searchButton1;
     private Button searchButton2;
-    private int MY_LOCATION_REQUEST_CODE = 1;
-
     private static LatLng deviceLocation = null;
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void openStoreCheckUI() {
-        StoreCheckUI.setDeviceLocation(deviceLocation);
-        StoreCheckUI.setStoreArray(ctrlSys.getStoreLocation(deviceLocation));
-        Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
-        startActivity(intent);
-    }
+    private ActivityMapsBinding binding;
+    private int MY_LOCATION_REQUEST_CODE = 1;
 
-    public void showErrorMsg(String msg) {
-        Toast.makeText(this.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +105,27 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         });
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationButtonClickListener(this);
+
+        printDeviceLocation();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -131,20 +146,32 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         }
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
-        }
-        mMap.setMyLocationEnabled(true);
-        mMap.setOnMyLocationButtonClickListener(this);
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Override
+    public boolean onMyLocationButtonClick() {
+        showErrorMsg("현재 위치로 이동합니다.");
+        return false;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void openStoreCheckUI() {
+        StoreCheckUI.setDeviceLocation(deviceLocation);
+        StoreCheckUI.setStoreArray(ctrlSys.getStoresLocation(deviceLocation));
+        Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
+        startActivity(intent);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void showErrorMsg(String msg) {
+        Toast.makeText(this.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void printDeviceLocation() {
         // 현재 위치로 지도 이동
         deviceLocation = ctrlSys.getDeviceLocation(this, this);
         if (deviceLocation != null) {
@@ -158,10 +185,6 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         searchButton2.setText(String.valueOf(deviceLocation));
     }
 
-    @Override
-    public boolean onMyLocationButtonClick() {
-        showErrorMsg("현재 위치로 이동합니다.");
-        return false;
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
