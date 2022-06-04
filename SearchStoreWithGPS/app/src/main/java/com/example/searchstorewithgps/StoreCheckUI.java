@@ -66,8 +66,15 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
-        printStoreLocation();
-        printStoreListView();
+        if (storeArray == null) {
+            finish();
+            Toast.makeText(this.getApplicationContext(),
+                    "매장 정보 로드 오류", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            printStoreLocation();
+            printStoreListView();
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
