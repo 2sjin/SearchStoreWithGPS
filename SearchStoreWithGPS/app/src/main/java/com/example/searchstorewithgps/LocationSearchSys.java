@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.EditText;
 
 import androidx.core.app.ActivityCompat;
@@ -92,8 +94,13 @@ public class LocationSearchSys {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public boolean checkConnected() {
-        return true;
+    public boolean checkConnected(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        return (activeNetwork != null) && (activeNetwork.isConnectedOrConnecting());
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,10 +109,8 @@ public class LocationSearchSys {
         List<Address> list = null;
 
         String str = et.getText().toString();
-        try {
-            list = geocoder.getFromLocationName(
-                    str, // 지역 이름
-                    10); // 읽을 개수
+        try {       // 파라미터: 지역 이름(str), 읽을 개수(10)
+            list = geocoder.getFromLocationName(str, 10);
         } catch (IOException e) {
             deviceLocation =  new LatLng(999.999, 999.999);    // 에러코드 대신 위도,경도 범위 외의 값인 999.999를 리턴함
             return deviceLocation;
@@ -117,10 +122,10 @@ public class LocationSearchSys {
             else
                 deviceLocation = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
         }
-        return deviceLocation;
 
+        return deviceLocation;
     }
-    
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
 }

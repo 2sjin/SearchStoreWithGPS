@@ -48,6 +48,12 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         mapFragment.getMapAsync(this);
 
         ctrlSys = new LocationSearchSys();
+
+        if (!ctrlSys.checkConnected(this)) {
+            finish();
+            showErrorMsg("네트워크 접속 실패. 네트워크 연결 상태를 확인 후 다시 시도해주세요.");
+        }
+
         searchButton1 = (Button)findViewById(R.id.searchButton1);
         searchButton2 = (Button)findViewById(R.id.searchButton2);
         et = (EditText)findViewById(R.id.editText);
@@ -71,13 +77,11 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
                 }
 
             }
-        }); //여기까지
+        });
 
         searchButton2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openStoreCheckUI();
-            }
+            public void onClick(View v) { openStoreCheckUI(); }
         });
     }
 
@@ -133,10 +137,10 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void openStoreCheckUI() {
-        StoreCheckUI.setDeviceLocation(deviceLocation);
-        StoreCheckUI.setStoreArray(ctrlSys.getStoresLocation(deviceLocation));
         Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
         startActivity(intent);
+        StoreCheckUI.setDeviceLocation(deviceLocation);
+        StoreCheckUI.setStoreArray(ctrlSys.getStoresLocation(deviceLocation));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +162,7 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
             finish();
             showErrorMsg("위치 탐색 실패. 위치 서비스 확인 후 다시 시도하세요.");
         }
-        searchButton2.setText(String.valueOf(deviceLocation));
+        // searchButton2.setText(String.valueOf(deviceLocation));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -87,7 +87,8 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
             storeNameArray.add(storeArray.get(i).getName());
 
         // 임시 ArrayList에 추가한 항목을 리스트뷰에 저장하고 출력
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, storeNameArray);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, storeNameArray);
         storeListView.setAdapter(arrayAdapter);
     }
 
@@ -95,11 +96,13 @@ public class StoreCheckUI extends FragmentActivity implements GoogleMap.OnMyLoca
         // 마커 추가
         for(int i = 0; i< storeArray.size(); i++) {
             mMap.addMarker(new MarkerOptions().position(
-                    new LatLng(storeArray.get(i).getAddr1(), storeArray.get(i).getAddr2())).title(storeArray.get(i).getName()));
+                    new LatLng(storeArray.get(i).getAddr1(),
+                            storeArray.get(i).getAddr2())).title(storeArray.get(i).getName()));
         }
 
         // 카메라 이동
-        LatLng adjustedLocation = new LatLng(deviceLocation.latitude-0.0005, deviceLocation.longitude);
+        LatLng adjustedLocation
+                = new LatLng(deviceLocation.latitude-0.0005, deviceLocation.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(adjustedLocation));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(adjustedLocation, 18));
     }
