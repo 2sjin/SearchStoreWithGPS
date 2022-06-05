@@ -19,7 +19,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +64,8 @@ public class LocationSearchSys {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public ArrayList<Store> getStoresLocation(LatLng deviceLocation) {
-        ArrayList<Store> tempStoreArray = getStoreArrayFromFile();
+    public ArrayList<Store> getStoresLocation(LatLng deviceLocation, Context context) {
+        ArrayList<Store> tempStoreArray = getStoreArrayFromFile(context);
 
         if (tempStoreArray == null)
             return null;
@@ -107,21 +110,24 @@ public class LocationSearchSys {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public ArrayList<Store> getStoreArrayFromFile() {
+    public ArrayList<Store> getStoreArrayFromFile(Context context) {
         ArrayList<Store> arr = new ArrayList<>();
 
-        arr.add(new Store(0, "맘스터치 동의대지천관점", 35.1442925, 129.0347551));
-        arr.add(new Store(1, "CAFE SPAZiO", 35.144225, 129.0352422));
-        arr.add(new Store(2, "할리스 부산동의대점", 35.1442099, 129.0348774));
-        arr.add(new Store(3, "CU 동의대지천관점", 35.1442809, 129.0350693));
-        arr.add(new Store(4, "GS25 동의대정보관점", 35.1463446, 129.0356169));
-        arr.add(new Store(5, "GS25 동의대공대점", 35.1444746, 129.0363684));
-        arr.add(new Store(6, "밀탑동의대점", 35.1432048, 129.0340628));
-        arr.add(new Store(7, "투썸플레이스 동의대점", 35.1459356, 129.035277));
-        arr.add(new Store(8, "커피에반하다 부산신평점", 35.0932288, 128.9734027));
-        arr.add(new Store(9, "파리바게트 신평럭키점", 35.0934613, 128.9735863));
-        arr.add(new Store(10, "치킨신드롬사하시장점", 35.0984485, 128.9864968));
-        arr.add(new Store(11, "뚱땡이삼겹살", 35.0898791, 128.9757606));
+        InputStream is = context.getResources().openRawResource(R.raw.test);
+        String line = "";
+        String strArray[];
+
+        try {
+            BufferedReader fr = new BufferedReader(new InputStreamReader(is));
+            while((line = fr.readLine()) != null) {
+                strArray = line.split(",");
+
+                arr.add(new Store(Integer.parseInt(strArray[0]), strArray[1],
+                        Double.parseDouble(strArray[2]), Double.parseDouble(strArray[3])));
+            }
+        } catch (IOException e) {
+            return null;
+        }
 
         return arr;
     }

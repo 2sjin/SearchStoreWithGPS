@@ -16,21 +16,13 @@ public class MainUI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ui);
 
-        // 권한 설정
-
-
-
         startButton = findViewById(R.id.startButton);
-
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View v){
                 Intent intent = new Intent(getApplicationContext(), LocationSearchUI.class);
                 startActivity(intent);
-
             }
         });
-
     }
 }

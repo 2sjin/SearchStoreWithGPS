@@ -143,7 +143,7 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         startActivity(intent);
         StoreCheckUI.setDeviceLocation(deviceLocation);
 
-        ArrayList<Store> arr = ctrlSys.getStoresLocation(deviceLocation);
+        ArrayList<Store> arr = ctrlSys.getStoresLocation(deviceLocation, this);
         StoreCheckUI.setStoreArray(arr);
     }
 
