@@ -94,7 +94,7 @@ public class LocationSearchSys {
         try {       // 파라미터: 지역 이름(str), 읽을 개수(10)
             list = geocoder.getFromLocationName(str, 10);
         } catch (IOException e) {
-            deviceLocation =  new LatLng(999.999, 999.999);    // 에러코드 대신 위도,경도 범위 외의 값인 999.999를 리턴함
+            deviceLocation =  new LatLng(90.000, 80.001);
             return deviceLocation;
         }
 

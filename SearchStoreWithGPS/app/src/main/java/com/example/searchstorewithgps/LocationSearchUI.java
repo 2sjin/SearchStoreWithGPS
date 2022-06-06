@@ -64,13 +64,16 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
         searchButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LatLng tempLocation = deviceLocation;
                 deviceLocation = ctrlSys.getLocationFromAddress(et, geocoder);
 
                 if (deviceLocation == null) {
                     showErrorMsg("주소를 더 정확하게 입력해주세요.");
+                    deviceLocation = null;
                 }
-                else if(deviceLocation.latitude == 999.999 && deviceLocation.longitude == 999.999) {
-                    showErrorMsg("입출력 오류 발생!");
+                else if(deviceLocation.latitude == 90.000 && deviceLocation.longitude == 80.001) {
+                    showErrorMsg("입출력 오류 발생");
+                    deviceLocation = null;
                 }
                 else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(deviceLocation));
@@ -141,10 +144,12 @@ public class LocationSearchUI extends FragmentActivity implements GoogleMap.OnMy
     public void openStoreCheckUI() {
         Intent intent = new Intent(getApplicationContext(), StoreCheckUI.class);
         startActivity(intent);
-        StoreCheckUI.setDeviceLocation(deviceLocation);
 
-        ArrayList<Store> arr = ctrlSys.getStoresLocation(deviceLocation, this);
-        StoreCheckUI.setStoreArray(arr);
+        if (deviceLocation != null) {
+            StoreCheckUI.setDeviceLocation(deviceLocation);
+            ArrayList<Store> arr = ctrlSys.getStoresLocation(deviceLocation, this);
+            StoreCheckUI.setStoreArray(arr);
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
